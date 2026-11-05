@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AcuMap – Interactive Scalp &amp; Ear Acupuncture Maps</title>
+  <meta name="description" content="Interactive maps of YNSA, TCM scalp, Zhu's scalp and ear acupuncture for students and practitioners. Tap any point to see its location, function and indications.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Preview card shown when the link is shared on Facebook, WhatsApp etc. -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://acumap.net/">
+  <meta property="og:title" content="AcuMap – Scalp & Ear Acupuncture Maps (Beta)">
+  <meta property="og:description" content="Interactive YNSA, TCM, Zhu's scalp and ear acupuncture maps. Free beta – help shape what gets built next.">
+  <meta property="og:image" content="https://acumap.net/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --teal: #63ECE1;
+      --teal-soft: #E6FBF9;
+      --ink: #0B3B38;
+      --text: #1F2937;
+      --muted: #5B6670;
+      --amber: #F59E0B;
+      --amber-dark: #D97706;
+      --red: #DC2626;
+      --bg: #FFFFFF;
+      --bg-alt: #F4F7F8;
+      --card: #FFFFFF;
+      --border: #E2E8EA;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      font-size: 17px; line-height: 1.6;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+    /* Nav */
+    nav { background: var(--teal); position: sticky; top: 0; z-index: 10; }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 24px; color: #000; text-decoration: none; }
+    .brand img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { text-decoration: none; font-weight: 600; color: var(--ink); }
+    .nav-links .hide-sm { display: inline; }
+
+    .btn {
+      display: inline-block; text-decoration: none; font-weight: 800;
+      background: var(--amber); color: #111; border-radius: 12px;
+      padding: 14px 28px; font-size: 18px; transition: background .15s, transform .15s;
+    }
+    .btn:hover { background: #FBBF24; transform: translateY(-1px); }
+    .btn-sm { padding: 8px 16px; font-size: 15px; border-radius: 10px; }
+    .btn-ghost { background: transparent; border: 2px solid var(--ink); color: var(--ink); }
+    .btn-ghost:hover { background: rgba(11,59,56,.06); }
+
+    /* Hero */
+    .hero { background: linear-gradient(180deg, var(--teal-soft), var(--bg)); padding: 64px 0 48px; }
+    .hero .wrap { display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: center; }
+    .badge {
+      display: inline-block; background: var(--ink); color: var(--teal);
+      font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
+    }
+    h1 { font-size: 48px; line-height: 1.12; margin: 0 0 18px; color: #000; font-weight: 800; }
+    h1 span { color: var(--amber-dark); }
+    .lead { font-size: 20px; color: var(--muted); margin: 0 0 28px; max-width: 34em; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .small-note { font-size: 14px; color: var(--muted); margin-top: 14px; }
+    /* Tablet with a phone in front, overlapping its lower-right corner */
+    .devices { position: relative; width: 100%; max-width: 620px; justify-self: center; padding: 0 6% 18% 0; }
+    .tablet {
+      border-radius: 26px; padding: 14px; background: #1a1a1a;
+      box-shadow: 0 30px 60px -24px rgba(11,59,56,.45);
+    }
+    .tablet img { border-radius: 14px; }
+    .phone {
+      position: absolute; right: 0; bottom: 0; width: 34%;
+      border-radius: 30px; padding: 8px; background: #111;
+      box-shadow: -10px 24px 40px -12px rgba(0,0,0,.45);
+    }
+    .phone img { border-radius: 23px; }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    section.alt { background: var(--bg-alt); }
+    h2 { font-size: 34px; line-height: 1.2; margin: 0 0 12px; color: #000; text-align: center; font-weight: 800; }
+    .section-lead { text-align: center; color: var(--muted); max-width: 40em; margin: 0 auto 44px; font-size: 18px; }
+
+    /* Systems */
+    .systems { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+    .sys {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; box-shadow: 0 4px 16px -8px rgba(0,0,0,.12);
+    }
+    .sys img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; border-bottom: 1px solid var(--border); }
+    .sys-body { padding: 20px 22px 24px; }
+    .sys h3 { margin: 0 0 6px; font-size: 20px; color: #000; }
+    .sys p { margin: 0; color: var(--muted); font-size: 16px; }
+    .tag { display: inline-block; font-size: 12px; font-weight: 800; color: var(--ink); background: var(--teal-soft); border-radius: 6px; padding: 2px 8px; margin-bottom: 8px; letter-spacing: .04em; }
+
+    /* Features */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .feat { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    .feat .ico {
+      width: 44px; height: 44px; border-radius: 12px; background: var(--teal);
+      display: grid; place-items: center; margin-bottom: 14px; color: var(--ink);
+    }
+    .feat h3 { margin: 0 0 6px; font-size: 18px; color: #000; }
+    .feat p { margin: 0; color: var(--muted); font-size: 16px; }
+
+    /* Detail showcase */
+    .showcase { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
+    .showcase img { border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 20px 40px -20px rgba(0,0,0,.3); }
+    .showcase h2 { text-align: left; }
+    .showcase ul { padding-left: 0; list-style: none; margin: 18px 0 0; }
+    .showcase li { padding-left: 30px; position: relative; margin-bottom: 10px; color: var(--text); }
+    .showcase li::before {
+      content: ""; position: absolute; left: 4px; top: 8px; width: 12px; height: 12px;
+      border-radius: 50%; background: var(--red); box-shadow: 0 0 0 4px rgba(220,38,38,.15);
+    }
+
+    /* Beta callout */
+    .beta {
+      background: var(--ink); color: #E6FBF9; border-radius: 24px;
+      padding: 48px 40px; text-align: center;
+    }
+    .beta h2 { color: var(--teal); }
+    .beta p { max-width: 38em; margin: 0 auto 14px; color: #CFEFEC; font-size: 18px; }
+    .beta ol { text-align: left; max-width: 30em; margin: 20px auto 30px; padding-left: 22px; color: #E6FBF9; }
+    .beta li { margin-bottom: 8px; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 32px 0 40px; color: var(--muted); font-size: 14px; }
+    footer .wrap { display: grid; gap: 12px; }
+    footer .disclaimer { max-width: 60em; }
+    footer a { color: var(--ink); font-weight: 600; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero .wrap, .showcase { grid-template-columns: 1fr; }
+      .hero { padding-top: 40px; text-align: center; }
+      .lead { margin-left: auto; margin-right: auto; }
+      .hero-cta { justify-content: center; }
+      .devices { max-width: 560px; }
+      .features { grid-template-columns: 1fr 1fr; }
+      .showcase h2 { text-align: center; }
+    }
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      .wrap { padding: 0 16px; }
+      h1 { font-size: 34px; }
+      h2 { font-size: 27px; }
+      .lead { font-size: 18px; }
+      section { padding: 52px 0; }
+      .systems, .features { grid-template-columns: 1fr; }
+      .nav-links .hide-sm { display: none; }
+      .beta { padding: 36px 20px; border-radius: 18px; }
+      .tablet { border-radius: 16px; padding: 8px; }
+      .tablet img { border-radius: 9px; }
+      .phone { border-radius: 18px; padding: 5px; }
+      .phone img { border-radius: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="wrap">
+      <a class="brand" href="#"><img src="icon.svg" alt="">AcuMap</a>
+      <div class="nav-links">
+        <a class="hide-sm" href="#systems">Systems</a>
+        <a class="hide-sm" href="#beta">Beta</a>
+        <a href="https://app.acumap.net/login">Log in</a>
+        <a class="btn btn-sm" href="https://app.acumap.net/register">Join the beta</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <span class="badge">Now in open beta</span>
+        <h1>Scalp &amp; ear acupuncture,<br><span>mapped and in your pocket</span></h1>
+        <p class="lead">
+          AcuMap is an interactive reference for acupuncture students and practitioners.
+          Explore the main scalp and ear systems on clear diagrams, and tap any point or
+          area to see its location, function and indications.
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="https://app.acumap.net/register">Join the beta – it's free</a>
+          <a class="btn btn-ghost" href="#systems">See what's inside</a>
+        </div>
+        <p class="small-note">No credit card needed. Works on phone, tablet and laptop.</p>
+      </div>
+      <div class="devices">
+        <div class="tablet">
+          <img src="img/tablet.jpg" alt="AcuMap on a tablet showing the ear acupuncture formula for sleep, with Shenmen, Kidney and Neurasthenia Point marked on the ear" width="1770" height="1230">
+        </div>
+        <div class="phone">
+          <img src="img/mobile.jpg" alt="AcuMap on a phone showing YNSA basic points on four head views" width="390" height="844">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="systems">
+    <div class="wrap">
+      <h2>Four systems in one place</h2>
+      <p class="section-lead">Scalp and ear points can be reached easily with the patient seated and fully clothed, which makes them ideal for the elderly and anyone who finds lying down difficult.</p>
+
+      <div class="systems">
+        <article class="sys">
+          <img src="img/ynsa-y.jpg" alt="YNSA Y-Points with neck and abdomen diagnosis areas" loading="lazy">
+          <div class="sys-body">
+            <span class="tag">YNSA</span>
+            <h3>Yamamoto New Scalp Acupuncture</h3>
+            <p>Basic, Sensory, Brain and Y-Points on lateral, frontal and posterior views, with neck and abdomen diagnosis areas linked to each meridian.</p>
+          </div>
+        </article>
+        <article class="sys">
+          <img src="img/tcm.jpg" alt="TCM scalp areas, motor area measurement, meridians and front stimulation areas" loading="lazy">
+          <div class="sys-body">
+            <span class="tag">TCM</span>
+            <h3>Chinese Scalp Acupuncture</h3>
+            <p>Standard scalp areas, motor area measurement, meridians on the head, organ areas and brain zones.</p>
+          </div>
+        </article>
+        <article class="sys">
+          <img src="img/zsa.jpg" alt="Zhu's Scalp Acupuncture zones" loading="lazy">
+          <div class="sys-body">
+            <span class="tag">ZSA</span>
+            <h3>Zhu's Scalp Acupuncture</h3>
+            <p>The treatment zones of Zhu's system, with their locations and indications.</p>
+          </div>
+        </article>
+        <article class="sys">
+          <img src="img/ear.jpg" alt="Ear acupuncture maps: Chinese auriculotherapy, musculoskeletal, internal organ and neuroendocrine points" loading="lazy">
+          <div class="sys-body">
+            <span class="tag">Auriculotherapy</span>
+            <h3>Ear Acupuncture</h3>
+            <p>Chinese auriculotherapy, musculoskeletal, internal organ and neuroendocrine points, plus descriptions and treatment formulas.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap showcase">
+      <img src="img/ynsa-point.jpg" alt="Selecting YNSA point D Yang shows its reaction area, location and indications" loading="lazy">
+      <div>
+        <h2>Tap a point, get the details</h2>
+        <p style="color:var(--muted);margin:0">Every point and area opens a clear information panel, and related points light up on every view at once.</p>
+        <ul>
+          <li>Location, reaction area and function</li>
+          <li>Indications for clinical use</li>
+          <li>Search by point name, meridian or condition</li>
+          <li>Zoom into any diagram for precise locations</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Made for class and clinic</h2>
+      <p class="section-lead">A quick visual reference you can open between patients, in a lecture or while revising.</p>
+      <div class="features">
+        <div class="feat">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+          <h3>Any device</h3>
+          <p>Runs in the browser on phone, tablet and laptop – nothing to install.</p>
+        </div>
+        <div class="feat">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+          <h3>Search by indication</h3>
+          <p>Find points and areas by the condition you want to treat.</p>
+        </div>
+        <div class="feat">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg></div>
+          <h3>Growing every month</h3>
+          <p>New points, systems and case studies are added regularly – shaped by your feedback.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beta" style="padding-top:0">
+    <div class="wrap">
+      <div class="beta">
+        <h2>Help shape AcuMap</h2>
+        <p>AcuMap is in beta and is built by a practitioner, for practitioners and students. Your feedback decides what comes next.</p>
+        <ol>
+          <li>Create a free account – it takes a minute.</li>
+          <li>Explore the systems you use in practice or study.</li>
+          <li>Tell us what's missing, unclear or wrong using the <strong>Feedback</strong> link inside the app.</li>
+        </ol>
+        <a class="btn" href="https://app.acumap.net/register">Join the beta</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p class="disclaimer"><strong>Disclaimer:</strong> AcuMap is an educational and reference tool for trained students and practitioners. It is not a substitute for diagnosis or treatment by a GP or other qualified health professional. Acupuncture should only be practised by people with the proper training and qualifications.</p>
+      <p>© 2026 AcuMap · <a href="https://app.acumap.net/login">Log in</a> · <a href="https://app.acumap.net/register">Create account</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
