@@ -322,5 +322,18 @@
     </div>
   </footer>
 
+  <script>
+    // Beta source tracking: pass ?ref=<tag> from this page on to every app link,
+    // so a sign-up via acumap.net?ref=fb-xyz is credited to that post.
+    (function () {
+      var ref = new URLSearchParams(location.search).get('ref');
+      if (!ref || !/^[A-Za-z0-9_-]{1,40}$/.test(ref)) return;
+      document.querySelectorAll('a[href^="https://app.acumap.net"]').forEach(function (a) {
+        var u = new URL(a.href);
+        u.searchParams.set('ref', ref);
+        a.href = u.toString();
+      });
+    })();
+  </script>
 </body>
 </html>
